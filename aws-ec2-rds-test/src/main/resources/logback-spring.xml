@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+
+	<springProperty scope="context" name="logfilepath"
+		source="myproj.logfile.path" />
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logfilepath}</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+			<!-- daily rollover -->
+			<fileNamePattern>${logfilepath}.%d{yyyy-MM-dd}</fileNamePattern>
+
+			<!-- keep 30 days' worth of history capped at 3GB total size -->
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>1GB</totalSizeCap>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d %-5level [%thread] %logger - [%F:%L] : %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="FILE" />
+	</root>
+	<springProfile name="dev">
+		<logger name="org.springframework" level="ERROR" />
+		<logger name="org.hibernate" level="ERROR" />
+		<logger name="com.ec2.rds.api" level="DEBUG" />
+		<logger name="org.apache.catalina" level="ERROR" />
+	</springProfile>
+</configuration>

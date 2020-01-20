@@ -1,0 +1,26 @@
+## dev profiles start 
+spring:
+  profiles: dev
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver 
+    url: jdbc:mysql://my-rds-instance.cefnulqo053j.ap-south-1.rds.amazonaws.com:3306/myproj
+    username: myproj
+    password: myproj@123
+    #tomcat:
+      #initial-size: 2
+      #log-abandoned: true
+      #remove-abandoned: true
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    open-in-view: true
+server:
+   port: 8081
+myproj:
+  logfile:
+    path: /var/log/myproj/myproj.log

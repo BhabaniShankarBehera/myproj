@@ -1,4 +1,4 @@
-export const url= 'http://domain2.com';
+export const url= 'http://domain.com';
 export const environment = {
   production: true,
   addProductPath: url+'/api/v1/products',

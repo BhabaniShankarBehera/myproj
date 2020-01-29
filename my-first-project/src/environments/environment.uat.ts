@@ -1,6 +1,6 @@
 export const url= 'http://domain2.com';
 export const environment = {
-  production: false;
+  production: false,
   addProductPath: url+'/api/v1/products',
   getProductPath: url+'/api/v1/getproducts',
   getProductByIdPath: url+'/api/v1/getproduct?id=',

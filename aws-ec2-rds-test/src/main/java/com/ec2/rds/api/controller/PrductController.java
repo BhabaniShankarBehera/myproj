@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ec2.rds.api.vo.ApiResponse;
+import com.ec2.rds.api.vo.ApiResponse.ResposeBuilder;
 import com.ec2.rds.api.vo.Product;
 
 /**
@@ -35,7 +34,6 @@ import com.ec2.rds.api.vo.Product;
  * @version 1.0
  *
  */
-@CrossOrigin
 @RestController
 @RequestMapping("/api/v1")
 public class PrductController {
@@ -49,17 +47,17 @@ public class PrductController {
 		product.setId(UUID.randomUUID().toString());
 		logger.info("Product : {}", product);
 		products.add(product);
-		return new ResponseEntity<>(new ApiResponse("Product added successfully."),HttpStatus.OK);
+		return new ResponseEntity<>(ResposeBuilder.getSuccessResposeBuilder("Product added successfully.").build(),HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/getproducts")
 	public HttpEntity<Object> getProducts(){
-		return new ResponseEntity<>(new ApiResponse(products),HttpStatus.OK);
+		return new ResponseEntity<>(ResposeBuilder.getSuccessResposeBuilder(products).build(),HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/getproduct")
 	public HttpEntity<Object> getProduct(@RequestParam String id){
-		return new ResponseEntity<>(new ApiResponse(products.stream().filter(p -> p.getId().equals(id)).map(p->p).findAny().orElse(null)),HttpStatus.OK);
+		return new ResponseEntity<>(ResposeBuilder.getSuccessResposeBuilder(products.stream().filter(p -> p.getId().equals(id)).map(p->p).findAny().orElse(null)).build(),HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/updateproduct")
@@ -74,7 +72,7 @@ public class PrductController {
 			}
 			return p;
 		}).collect(Collectors.toList());
-		return new ResponseEntity<>(new ApiResponse("Product updated successfully."),HttpStatus.OK);
+		return new ResponseEntity<>(ResposeBuilder.getSuccessResposeBuilder("Product updated successfully.").build(),HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deleteproduct")
@@ -82,9 +80,9 @@ public class PrductController {
 		Product product = products.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
 		if(Objects.nonNull(product)) {
 			products.remove(product);
-			return new ResponseEntity<>(new ApiResponse("Product deleted successfully."),HttpStatus.OK);
+			return new ResponseEntity<>(ResposeBuilder.getSuccessResposeBuilder("Product deleted successfully.").build(),HttpStatus.OK);
 		}else {
-			return new ResponseEntity<>(new ApiResponse("Product deletion failed."),HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(ResposeBuilder.getFailureResposeBuilder("Product deletion failed.").build(),HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 

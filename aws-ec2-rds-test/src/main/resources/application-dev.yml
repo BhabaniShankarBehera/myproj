@@ -19,6 +19,15 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
     open-in-view: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
+security:
+  sessions: never
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false
 server:
    port: 8081
 myproj:
